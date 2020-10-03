@@ -5,12 +5,12 @@ import java.time.LocalDate;
 public class TodoItem {
     private String shortDescription;
     private String details;
-    private LocalDate localDate;
+    private LocalDate deadline;
 
-    public TodoItem(String shortDescription, String details, LocalDate localDate) {
+    public TodoItem(String shortDescription, String details, LocalDate deadline) {
         this.shortDescription = shortDescription;
         this.details = details;
-        this.localDate = localDate;
+        this.deadline = deadline;
     }
 
     public String getShortDescription() {
@@ -29,11 +29,16 @@ public class TodoItem {
         this.details = details;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
+    public LocalDate getDeadline() {
+        return deadline;
     }
 
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
+    @Override
+    public String toString() {
+        return shortDescription;
     }
 }
