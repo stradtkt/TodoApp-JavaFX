@@ -1,7 +1,10 @@
 package com.stradtkt.todoapp;
 
 import com.stradtkt.todoapp.Datamodel.TodoItem;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
@@ -17,6 +20,8 @@ public class Controller {
     private ListView<TodoItem> todoListView;
     @FXML
     private TextArea itemDetailsTextArea;
+    @FXML
+    private Label deadlineLabel;
 
     public void initialize() {
         TodoItem todoItem1 = new TodoItem("Walk the dog", "Walk the dog around the park", LocalDate.of(2020, Month.OCTOBER, 4));
@@ -30,17 +35,29 @@ public class Controller {
         todoItems.add(todoItem3);
         todoItems.add(todoItem4);
         todoItems.add(todoItem5);
+        todoListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TodoItem>() {
+            @Override
+            public void changed(ObservableValue<? extends TodoItem> observable, TodoItem oldValue, TodoItem newValue) {
+                if(newValue != null) {
+                    TodoItem todoItem = todoListView.getSelectionModel().getSelectedItem();
+                    itemDetailsTextArea.setText(todoItem.getDetails());
+                }
+            }
+        });
         todoListView.getItems().setAll(todoItems);
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        todoListView.getSelectionModel().selectFirst();
     }
     @FXML
     public void handleClickListView() {
         TodoItem item = todoListView.getSelectionModel().getSelectedItem();
 //        System.out.println("Selected item is " + item);
-        StringBuilder stringBuilder = new StringBuilder(item.getDetails());
-        stringBuilder.append("\n\n\n\n");
-        stringBuilder.append("Due: ");
-        stringBuilder.append(item.getDeadline().toString());
-        itemDetailsTextArea.setText(stringBuilder.toString());
+//        StringBuilder stringBuilder = new StringBuilder(item.getDetails());
+//        stringBuilder.append("\n\n\n\n");
+//        stringBuilder.append("Due: ");
+//        stringBuilder.append(item.getDeadline().toString());
+//        itemDetailsTextArea.setText(stringBuilder.toString());
+        itemDetailsTextArea.setText(item.getDetails());
+        deadlineLabel.setText(item.getDeadline().toString());
     }
 }
